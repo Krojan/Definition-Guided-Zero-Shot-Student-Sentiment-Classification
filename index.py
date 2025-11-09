@@ -13,9 +13,9 @@ input_data = data.loc[start_index:].copy()
 
 def run(df):
     try:
-        for i in range(start_index, len(df)):
-            query = df.loc[i, "comment"]
-            expected_output = df.loc[i, "Validated_Labels"]
+        for i, row in input_data.iterrows():
+            query = row["comment"]
+            expected_output = row[i, "Validated_Labels"]
 
             prompt = f"""
             You are an experienced sentiment analyst studying students’ feedback on mental health services.
@@ -50,3 +50,5 @@ output_df, start_idx, idx = run(input_data)
 partial_output_df = input_data.loc[start_idx:idx]
 print(f"writing csv from {start_idx} to {idx}")
 partial_output_df.to_csv(f"Output_{datetime.now()}.csv")
+
+run_analysis(df=output_df)
